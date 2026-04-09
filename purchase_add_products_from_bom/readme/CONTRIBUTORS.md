@@ -1,0 +1,3 @@
+- Magno Costa \<magno.costa@akretion.com.br\>
+- [TesseraTech Solutions S.L.](https://www.tesseratech.es):
+  - Paco Montés \<f.montesdoria@gmail.com\>

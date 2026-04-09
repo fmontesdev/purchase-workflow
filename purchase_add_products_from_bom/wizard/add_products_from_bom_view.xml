@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright (C) 2021-Today - Akretion (<http://www.akretion.com>).
+  @author Magno Costa <magno.costa@akretion.com.br>
+  # Copyright 2026 TesseraTech Solutions S.L. <https://www.tesseratech.es>
+  # Copyright 2026 Paco Montés <f.montesdoria@gmail.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="add_products_from_bom_wizard_view" model="ir.ui.view">
+        <field name="name">Add Products From BoM</field>
+        <field name="model">add.products.from.bom</field>
+        <field name="arch" type="xml">
+            <form string="Add Products From BoM">
+                <group>
+                    <group colspan="2">
+                        <field
+                            name="product_id"
+                            options="{'no_create':True,'no_open':True}"
+                            domain="[('bom_count', '!=', 0)]"
+                        />
+                        <field name="bom_ids" invisible="1" />
+                        <field
+                            name="bom_id"
+                            domain="[('id', 'in', bom_ids)]"
+                            options="{'no_create':True,'no_open':True}"
+                            required="True"
+                        />
+                        <label for="product_qty" />
+                        <div class="o_row">
+                            <field name="product_qty" class="oe_inline" />
+                            <field
+                                name="product_uom_id"
+                                readonly="1"
+                                class="oe_inline"
+                                options="{'no_create':True,'no_open':True}"
+                            />
+                            <div class="oe_right">
+                                <button
+                                    name="button_get_products_from_bom"
+                                    type="object"
+                                    string="Get Products from BoM"
+                                    class="btn-primary"
+                                />
+                            </div>
+                        </div>
+                        <!-- field currency should be here to filled Monetary Symbol in price unit -->
+                        <field name="currency_id" invisible="1" />
+                    </group>
+                </group>
+                <group>
+                    <field name="raw_product_line_ids" nolabel="1" colspan="2">
+                        <list
+                            editable="top"
+                            decoration-danger="product_qty_stock &lt;= 0"
+                            decoration-bf="exploded_product==True"
+                            create="0"
+                            delete="0"
+                        >
+                            <field
+                                name="selected_product"
+                                readonly="exploded_product == True"
+                            />
+                            <field name="has_bom" column_invisible="True" />
+                            <field
+                                name="product_id"
+                                required="1"
+                                readonly="1"
+                                domain="[('id', '!=', parent.product_id)]"
+                                options="{'no_open': True, 'no_create': True}"
+                            />
+                            <field
+                                name="orig_bom_product_id"
+                                options="{'no_open': True, 'no_create': True}"
+                            />
+                            <field name="bom_ids" column_invisible="True" />
+                            <field
+                                name="bom_id"
+                                domain="[('id', 'in', bom_ids)]"
+                                readonly="exploded_product == True"
+                                options="{'no_create':True,'no_open':True}"
+                            />
+                            <button
+                                name="add_products_from_bom"
+                                string="Add Products from BoM"
+                                class="btn-link"
+                                type="object"
+                                invisible="has_bom != True"
+                            />
+                            <field name="exploded_product" column_invisible="True" />
+                            <button
+                                name="return_finished_products_from_bom"
+                                string="Return Products from BoM"
+                                class="btn-link"
+                                type="object"
+                                invisible="exploded_product == False"
+                            />
+                            <field
+                                name="product_uom_id"
+                                readonly="1"
+                                options="{'no_open': True}"
+                            />
+                            <field
+                                name="product_qty"
+                                readonly="exploded_product == True"
+                                options="{'no_open': True}"
+                            />
+                            <field name="purchase_uom_id" readonly="1" />
+                            <!-- field currency should be here to filled Monetary Symbol in price unit -->
+                            <field
+                                name="currency_id"
+                                column_invisible="True"
+                                options="{'no_open': True}"
+                            />
+                            <field
+                                name="price_unit"
+                                readonly="exploded_product == True"
+                            />
+                            <field name="total_product_value" />
+                            <field name="product_qty_stock" />
+                            <field name="product_qty_after_buy" />
+                        </list>
+                    </field>
+                </group>
+                <footer>
+                    <button
+                        name="add_products"
+                        type="object"
+                        string="Add Products"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="add_products_from_bom_act_window" model="ir.actions.act_window">
+        <field name="name">Add Products From BoM</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">add.products.from.bom</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

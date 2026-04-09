@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright (C) 2021-Today - Akretion (<http://www.akretion.com>).
+  @author Magno Costa <magno.costa@akretion.com.br>
+  # Copyright 2026 TesseraTech Solutions S.L. <https://www.tesseratech.es>
+  # Copyright 2026 Paco Montés <f.montesdoria@gmail.com>
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="purchase_add_products_from_bom_form_view" model="ir.ui.view">
+        <field name="name">purchase.order.form</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <xpath
+                expr="//field[@name='order_line']/list/control/create[@name='add_product_control']"
+                position="after"
+            >
+                <button
+                    name="%(add_products_from_bom_act_window)d"
+                    string="Add Products from BoM"
+                    type="action"
+                    class="btn-link"
+                    context="{'default_purchase_id': parent.id, 'default_currency_id': parent.currency_id}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
